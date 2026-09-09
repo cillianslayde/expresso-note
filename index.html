@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Expresso Note</title>
+
+  <!-- ── Google Fonts ── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+
+  <!-- ── Stylesheet ── -->
+  <link rel="stylesheet" href="main.css"/>
+</head>
+<body>
+
+<!-- ══════════════════════════════
+     APP SHELL
+══════════════════════════════ -->
+<div id="app">
+
+  <!-- ── MENUBAR ── -->
+  <div id="menubar">
+
+    <button class="menu-btn" data-menu="file">File</button>
+    <button class="menu-btn" data-menu="edit">Edit</button>
+    <button class="menu-btn" data-menu="view">View</button>
+    <button class="menu-btn" data-menu="insert">Insert</button>
+    <button class="menu-btn" data-menu="format">Format</button>
+
+    <!-- File Menu -->
+    <div class="menu-dropdown" id="menu-file">
+      <div class="menu-item" data-cmd="new">New Tab<span class="shortcut">Ctrl+N</span></div>
+      <div class="menu-item" data-cmd="open">Open…<span class="shortcut">Ctrl+O</span></div>
+      <div class="menu-sep"></div>
+      <div class="menu-item" data-cmd="save">Save<span class="shortcut">Ctrl+S</span></div>
+      <div class="menu-item" data-cmd="saveas">Save As…<span class="shortcut">Ctrl+Shift+S</span></div>
+      <div class="menu-sep"></div>
+      <div class="menu-item" data-cmd="print">Print…<span class="shortcut">Ctrl+P</span></div>
+      <div class="menu-sep"></div>
+      <div class="menu-item" data-cmd="close">Close Tab<span class="shortcut">Ctrl+W</span></div>
+      <div class="menu-item" data-cmd="closeothers">Close Other Tabs</div>
+      <div class="menu-item" data-cmd="closeright">Close Tabs to the Right</div>
+    </div>
+
+    <!-- Edit Menu -->
+    <div class="menu-dropdown" id="menu-edit">
+      <div class="menu-item" data-cmd="undo">Undo<span class="shortcut">Ctrl+Z</span></div>
+      <div class="menu-item" data-cmd="redo">Redo<span class="shortcut">Ctrl+Y</span></div>
+      <div class="menu-sep"></div>
+      <div class="menu-item" data-cmd="cut">Cut<span class="shortcut">Ctrl+X</span></div>
+      <div class="menu-item" data-cmd="copy">Copy<span class="shortcut">Ctrl+C</span></div>
+      <div class="menu-item" data-cmd="paste">Paste<span class="shortcut">Ctrl+V</span></div>
+      <div class="menu-item" data-cmd="pasteplain">Paste Plain Text<span class="shortcut">Ctrl+Shift+V</span></div>
+      <div class="menu-sep"></div>
+      <div class="menu-item" data-cmd="selectall">Select All<span class="shortcut">Ctrl+A</span></div>
+      <div class="menu-item" data-cmd="delete">Delete Selection</div>
+      <div class="menu-sep"></div>
+      <div class="menu-item" data-cmd="find">Find…<span class="shortcut">Ctrl+F</span></div>
+      <div class="menu-item" data-cmd="findreplace">Find &amp; Replace…<span class="shortcut">Ctrl+H</span></div>
+      <div class="menu-sep"></div>
+      <div class="menu-item" data-cmd="palette">Command Palette…<span class="shortcut">Ctrl+Shift+P</span></div>
+      <div class="menu-sep"></div>
+      <div class="menu-item" data-cmd="togglespell">Spell Check <span id="spell-indicator" class="shortcut">ON</span></div>
+      <div class="menu-item" data-cmd="toggleac">Auto-Correct <span id="ac-indicator" class="shortcut">ON</span></div>
+    </div>
+
+    <!-- View Menu -->
+    <div class="menu-dropdown" id="menu-view">
+      <div class="menu-item" data-cmd="sidebar">Toggle Sidebar</div>
+      <div class="menu-item" data-cmd="togglelinenums">Line Numbers <span id="ln-indicator" class="shortcut">OFF</span></div>
+      <div class="menu-item" data-cmd="togglecurline">Current Line Highlight <span id="cl-indicator" class="shortcut">ON</span></div>
+      <div class="menu-item" data-cmd="wordwrap">Word Wrap <span id="ww-indicator" class="shortcut">ON</span></div>
+      <div class="menu-sep"></div>
+      <div class="menu-item" data-cmd="zoomin">Zoom In<span class="shortcut">Ctrl++</span></div>
+      <div class="menu-item" data-cmd="zoomout">Zoom Out<span class="shortcut">Ctrl+–</span></div>
+      <div class="menu-item" data-cmd="zoomreset">Reset Zoom</div>
+      <div class="menu-sep"></div>
+      <div class="menu-item" data-cmd="ls1">Line Spacing: 1</div>
+      <div class="menu-item" data-cmd="ls15">Line Spacing: 1.5</div>
+      <div class="menu-item" data-cmd="ls2">Line Spacing: 2</div>
+    </div>
+
+    <!-- Insert Menu -->
+    <div class="menu-dropdown" id="menu-insert">
+      <div class="menu-item" data-cmd="timestamp">Insert Date/Time</div>
+      <div class="menu-item" data-cmd="togglets">Auto Timestamp <span id="ts-menu-indicator" class="shortcut">OFF</span></div>
+      <div class="menu-item" data-cmd="altchars">Special Characters…</div>
+      <div class="menu-sep"></div>
+      <div class="menu-item" data-cmd="bullet">Bullet List Item</div>
+      <div class="menu-item" data-cmd="numbered">Numbered List Item</div>
+      <div class="menu-sep"></div>
+      <div class="menu-item" data-cmd="wordgoal">Set Word Count Goal…</div>
+    </div>
+
+    <!-- Format Menu -->
+    <div class="menu-dropdown" id="menu-format">
+      <div class="menu-item" data-cmd="bold">Bold<span class="shortcut">Ctrl+B</span></div>
+      <div class="menu-item" data-cmd="italic">Italic<span class="shortcut">Ctrl+I</span></div>
+      <div class="menu-item" data-cmd="underline">Underline<span class="shortcut">Ctrl+U</span></div>
+      <div class="menu-item" data-cmd="strikethrough">Strikethrough<span class="shortcut">Ctrl+Shift+X</span></div>
+      <div class="menu-sep"></div>
+      <div class="menu-item" data-cmd="indentmore">Indent<span class="shortcut">Tab</span></div>
+      <div class="menu-item" data-cmd="indentless">Outdent<span class="shortcut">Shift+Tab</span></div>
+      <div class="menu-sep"></div>
+      <div class="menu-item" data-cmd="fontup">Increase Font Size</div>
+      <div class="menu-item" data-cmd="fontdown">Decrease Font Size</div>
+    </div>
+
+  </div><!-- /menubar -->
+
+
+  <!-- ── TOOLBAR ── -->
+  <div id="toolbar">
+    <button class="tb-btn" data-cmd="new"         title="New Tab (Ctrl+N)">⬜</button>
+    <button class="tb-btn" data-cmd="open"        title="Open (Ctrl+O)">📂</button>
+    <button class="tb-btn" data-cmd="save"        title="Save (Ctrl+S)">💾</button>
+    <button class="tb-btn" data-cmd="print"       title="Print (Ctrl+P)">🖨</button>
+    <div class="tb-sep"></div>
+    <button class="tb-btn" data-cmd="undo"        title="Undo (Ctrl+Z)">↩</button>
+    <button class="tb-btn" data-cmd="redo"        title="Redo (Ctrl+Y)">↪</button>
+    <div class="tb-sep"></div>
+    <button class="tb-btn" data-cmd="cut"         title="Cut">✂</button>
+    <button class="tb-btn" data-cmd="copy"        title="Copy">⧉</button>
+    <button class="tb-btn" data-cmd="paste"       title="Paste">📋</button>
+    <button class="tb-btn" data-cmd="pasteplain"  title="Paste Plain Text (Ctrl+Shift+V)">⊠</button>
+    <div class="tb-sep"></div>
+    <button class="tb-btn" id="btn-bold"          data-cmd="bold"          title="Bold (Ctrl+B)"                style="font-weight:700">B</button>
+    <button class="tb-btn" id="btn-italic"        data-cmd="italic"        title="Italic (Ctrl+I)"              style="font-style:italic">I</button>
+    <button class="tb-btn" id="btn-underline"     data-cmd="underline"     title="Underline (Ctrl+U)"           style="text-decoration:underline">U</button>
+    <button class="tb-btn" id="btn-strikethrough" data-cmd="strikethrough" title="Strikethrough (Ctrl+Shift+X)" style="text-decoration:line-through">S</button>
+    <div class="tb-sep"></div>
+    <button class="tb-btn" data-cmd="indentmore"  title="Indent">→|</button>
+    <button class="tb-btn" data-cmd="indentless"  title="Outdent">|←</button>
+    <div class="tb-sep"></div>
+    <select class="tb-select" id="font-family" title="Font Family" style="width:138px">
+      <option value="'JetBrains Mono',monospace">JetBrains Mono</option>
+      <option value="'Outfit',sans-serif">Outfit</option>
+      <option value="'Syne',sans-serif">Syne</option>
+      <option value="Georgia,serif">Georgia</option>
+      <option value="Arial,sans-serif">Arial</option>
+      <option value="'Courier New',monospace">Courier New</option>
+      <option value="'Times New Roman',serif">Times New Roman</option>
+      <option value="Verdana,sans-serif">Verdana</option>
+    </select>
+    <select class="tb-select" id="font-size" title="Font Size" style="width:60px">
+      <option>8</option><option>9</option><option>10</option><option>11</option>
+      <option>12</option><option>13</option><option selected>14</option><option>15</option>
+      <option>16</option><option>18</option><option>20</option><option>22</option>
+      <option>24</option><option>28</option><option>32</option><option>36</option>
+      <option>48</option><option>60</option><option>72</option>
+    </select>
+    <select class="tb-select" id="line-spacing" title="Line Spacing" style="width:56px">
+      <option value="1">1×</option>
+      <option value="1.5" selected>1.5×</option>
+      <option value="2">2×</option>
+    </select>
+    <div class="tb-sep"></div>
+    <button class="tb-btn" data-cmd="bullet"      title="Bullet List Item">• —</button>
+    <button class="tb-btn" data-cmd="numbered"    title="Numbered List Item">1.</button>
+    <div class="tb-sep"></div>
+    <div class="tb-color" title="Text Color">
+      <input type="color" id="text-color" value="#f0e8de"/>
+    </div>
+    <div class="tb-color" title="Background Color">
+      <input type="color" id="bg-color" value="#0e0b09"/>
+    </div>
+    <div class="tb-sep"></div>
+    <button class="tb-btn" data-cmd="find"        title="Find (Ctrl+F)">🔍</button>
+    <button class="tb-btn" data-cmd="palette"     title="Command Palette (Ctrl+Shift+P)">⌘</button>
+    <button class="tb-btn" data-cmd="altchars"    title="Special Characters">Ω</button>
+    <button class="tb-btn" id="btn-linenums"      data-cmd="togglelinenums" title="Toggle Line Numbers">¶</button>
+    <button class="tb-btn" id="btn-spell"         data-cmd="togglespell"    title="Toggle Spell Check">ABC</button>
+    <button class="tb-btn" id="btn-ac"            data-cmd="toggleac"       title="Toggle Auto-Correct">ac✓</button>
+    <button class="tb-btn" id="btn-ts"            data-cmd="togglets"       title="Toggle Auto Timestamp">⏱</button>
+    <button class="tb-btn" data-cmd="timestamp"   title="Insert Date/Time Now">📅</button>
+    <div class="tb-sep"></div>
+    <button class="tb-btn" data-cmd="zoomin"      title="Zoom In (Ctrl++)">A+</button>
+    <button class="tb-btn" data-cmd="zoomreset"   title="Reset Zoom">1:1</button>
+    <button class="tb-btn" data-cmd="zoomout"     title="Zoom Out (Ctrl+-)">A−</button>
+    <button class="tb-btn" data-cmd="sidebar"     title="Toggle Recent Files" style="margin-left:auto">☰</button>
+  </div><!-- /toolbar -->
+
+
+  <!-- ── TAB BAR ──
+       Tabs rendered dynamically by JS.
+       Supports drag-to-reorder, double-click rename,
+       middle-click close, right-click context menu,
+       Ctrl+Tab / Ctrl+Shift+Tab cycling.
+  ── -->
+  <div id="tab-bar">
+    <div id="tab-list"></div>
+    <button id="tab-new-btn" title="New Tab (Ctrl+N)">＋</button>
+  </div><!-- /tab-bar -->
+
+
+  <!-- ── MAIN AREA ── -->
+  <div id="main">
+
+    <!-- ── SIDEBAR: Recent Files ── -->
+    <div id="sidebar">
+      <div id="sidebar-header">
+        <span>Recent Files</span>
+        <button id="btn-clear-recent" title="Clear all recent files">Clear</button>
+      </div>
+      <div id="recent-list"></div>
+    </div>
+
+    <!-- ── EDITOR AREA ── -->
+    <div id="editor-wrap">
+
+      <!-- Line numbers gutter — populated by JS when line numbers are enabled -->
+      <div id="line-nums"></div>
+
+      <!-- Content-editable editor surface -->
+      <div
+        id="editor"
+        contenteditable="true"
+        spellcheck="true"
+        data-placeholder="Start typing…"
+        role="textbox"
+        aria-multiline="true"
+        aria-label="Note editor"
+      ></div>
+
+      <!-- ── FIND & REPLACE BAR ── -->
+      <div id="find-bar">
+        <div id="find-bar-header">
+          <h3 id="find-bar-title">Find</h3>
+          <button class="fr-btn" id="fr-close" title="Close (Esc)">✕</button>
+        </div>
+        <div class="fr-row">
+          <input type="text" id="find-input" class="fr-input" placeholder="Find…" autocomplete="off" spellcheck="false"/>
+          <span id="find-count"></span>
+        </div>
+        <!-- Find option toggles: case-sensitive, whole word, regex -->
+        <div class="fr-options">
+          <button class="fr-opt" id="fr-opt-case"  title="Match Case (Alt+C)">Aa</button>
+          <button class="fr-opt" id="fr-opt-word"  title="Whole Word (Alt+W)">W</button>
+          <button class="fr-opt" id="fr-opt-regex" title="Regular Expression (Alt+R)">.*</button>
+        </div>
+        <!-- Replace row — hidden in Find-only mode -->
+        <div class="fr-row" id="replace-row">
+          <input type="text" id="replace-input" class="fr-input" placeholder="Replace with…" autocomplete="off" spellcheck="false"/>
+        </div>
+        <div class="fr-actions">
+          <button class="fr-btn" id="fr-prev">◀ Prev</button>
+          <button class="fr-btn" id="fr-next">Next ▶</button>
+          <button class="fr-btn" id="fr-replace">Replace</button>
+          <button class="fr-btn" id="fr-replaceall">Replace All</button>
+        </div>
+      </div><!-- /find-bar -->
+
+      <!-- ── ALT CHARACTERS PANEL ── -->
+      <div id="alt-panel">
+        <h3>Special Characters</h3>
+        <div id="alt-grid"></div>
+      </div>
+
+    </div><!-- /editor-wrap -->
+
+  </div><!-- /main -->
+
+
+  <!-- ── STATUS BAR ── -->
+  <div id="statusbar">
+    <span id="st-file">Untitled 1.nnt</span>
+    <span id="st-modified" style="color:var(--gold);display:none" title="Unsaved changes">●</span>
+    <span class="st-sep">│</span>
+    <span id="st-words">0 words</span>
+    <!-- Word count goal progress — hidden when no goal set -->
+    <span id="st-goal-wrap" style="display:none">
+      <span class="st-sep">/</span><span id="st-goal-num"></span>
+      <span id="st-goal-bar"><span id="st-goal-fill"></span></span>
+    </span>
+    <span class="st-sep">│</span>
+    <span id="st-chars">0 chars</span>
+    <span class="st-sep">│</span>
+    <span id="st-lines">Ln 1</span>
+    <span class="st-sep">│</span>
+    <span id="st-cols">Col 1</span>
+    <span class="st-sep">│</span>
+    <span id="st-zoom">100%</span>
+    <span class="st-sep">│</span>
+    <span id="st-ls">Spacing: 1.5×</span>
+    <span class="st-sep">│</span>
+    <span id="st-ww">Wrap: ON</span>
+    <span class="st-sep">│</span>
+    <span id="st-spell">Spell: ON</span>
+    <span class="st-sep">│</span>
+    <span id="st-ts">TS: OFF</span>
+    <span style="margin-left:auto" id="st-encoding">UTF-8 · .nnt</span>
+  </div><!-- /statusbar -->
+
+
+  <!-- ══════════════════════════════
+       CUSTOM CONTEXT MENU (editor right-click)
+  ══════════════════════════════ -->
+  <div id="ctx-menu">
+    <div id="ctx-suggestions"></div>
+    <div id="ctx-spell-sep" class="menu-sep" style="display:none"></div>
+    <div class="menu-item" data-cmd="cut">Cut</div>
+    <div class="menu-item" data-cmd="copy">Copy</div>
+    <div class="menu-item" data-cmd="paste">Paste</div>
+    <div class="menu-item" data-cmd="pasteplain">Paste Plain Text</div>
+    <div class="menu-sep"></div>
+    <div class="menu-item" data-cmd="selectall">Select All</div>
+  </div>
+
+  <!-- ══════════════════════════════
+       TAB CONTEXT MENU (tab right-click)
+  ══════════════════════════════ -->
+  <div id="tab-ctx-menu">
+    <div class="menu-item" id="tctx-rename">Rename Tab</div>
+    <div class="menu-sep"></div>
+    <div class="menu-item" id="tctx-close">Close Tab</div>
+    <div class="menu-item" id="tctx-closeothers">Close Other Tabs</div>
+    <div class="menu-item" id="tctx-closeright">Close Tabs to the Right</div>
+  </div>
+
+  <!-- ══════════════════════════════
+       COMMAND PALETTE
+  ══════════════════════════════ -->
+  <div id="palette-overlay" style="display:none" role="dialog" aria-modal="true" aria-label="Command Palette">
+    <div id="palette-box">
+      <input id="palette-input" type="text" placeholder="Type a command…" autocomplete="off" spellcheck="false"/>
+      <div id="palette-list"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       MODALS
+  ══════════════════════════════ -->
+
+  <!-- Word Count Goal modal -->
+  <div id="overlay-goal" class="overlay" style="display:none" role="dialog" aria-modal="true" aria-label="Word Count Goal">
+    <div class="modal">
+      <h2>Word Count Goal</h2>
+      <div class="modal-row">
+        <label for="goal-input">Target word count (0 to clear)</label>
+        <input class="modal-input" id="goal-input" type="number" min="0" value="0" autocomplete="off"/>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-sec"     id="goal-cancel">Cancel</button>
+        <button class="btn-primary" id="goal-ok">Set Goal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Save As modal -->
+  <div id="overlay-save" class="overlay" style="display:none" role="dialog" aria-modal="true" aria-label="Save As">
+    <div class="modal">
+      <h2>Save As</h2>
+      <div class="modal-row">
+        <label for="saveas-name">File name</label>
+        <input class="modal-input" id="saveas-name" type="text" value="Untitled" autocomplete="off"/>
+      </div>
+      <div class="modal-row">
+        <label for="saveas-type">File type</label>
+        <select class="modal-input" id="saveas-type">
+          <option value="nnt">.nnt — Expresso Note</option>
+          <option value="txt">.txt — Plain Text</option>
+        </select>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-sec"     id="saveas-cancel">Cancel</button>
+        <button class="btn-primary" id="saveas-ok">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Unsaved changes modal -->
+  <div id="overlay-close" class="overlay" style="display:none" role="dialog" aria-modal="true" aria-label="Unsaved Changes">
+    <div class="modal">
+      <h2>Unsaved Changes</h2>
+      <p>Do you want to save your changes before closing this tab?</p>
+      <div class="modal-actions">
+        <button class="btn-sec"     id="close-discard">Discard</button>
+        <button class="btn-sec"     id="close-cancel">Cancel</button>
+        <button class="btn-primary" id="close-save">Save &amp; Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- File drop overlay — shown on dragover -->
+  <div id="drop-overlay">
+    <div id="drop-message">Drop file to open in new tab</div>
+  </div>
+
+</div><!-- /app -->
+
+<!-- ── Script ── -->
+<script src="main.js"></script>
+
+</body>
+</html>
